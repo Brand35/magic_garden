@@ -1,63 +1,148 @@
+/* Styles pour les boutons */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  background-color: #004494;
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.card-product .btn {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Style pour le bouton "pending" */
+.btn-pending {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #ffc107; /* Couleur jaune pour indiquer un état en attente */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: default; /* Le curseur indique que l'action n'est pas cliquable */
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+/* Effet au survol pour "pending" */
+.btn-pending:hover {
+  background-color: #e0a800; /* Couleur légèrement plus foncée */
+}
+
+/* Style pour le bouton "not available" */
+.btn-not-available {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #dc3545; /* Couleur rouge pour indiquer l'indisponibilité */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: default; /* Le curseur indique que l'action n'est pas cliquable */
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+/* Effet au survol pour "not available" */
+.btn-not-available:hover {
+  background-color: #c82333; /* Couleur légèrement plus foncée */
+}
+
+/* Styles pour les cartes */
 .card-product {
   overflow: hidden;
-  height: 120px;
+  min-height: 180px;
   background: white;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
 }
+
+.card-product-infos {
+  padding: 16px;
+  flex: 1;
+  width: 100%;
+}
+
 .card-product img {
-  height: 100%;
-  width: 120px;
+  height: auto;
+  width: 100%;
   object-fit: cover;
 }
+
 .card-product h2 {
   font-size: 16px;
   font-weight: bold;
   margin: 0;
 }
+
 .card-product p {
   font-size: 12px;
   line-height: 1.4;
-  opacity: .7;
+  opacity: 0.7;
   margin-bottom: 0;
   margin-top: 8px;
 }
-.card-product .card-product-infos {
-  padding: 16px;
-}
+
+/* Styles pour le conteneur des cartes */
 .cards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 16px;
+  margin-top: 20px;
 }
-// Smallest device
+
+/* Ajustement responsive */
 @media (min-width: 100px) and (max-width: 575px) {
   .cards {
     grid-template-columns: 1fr;
   }
 }
-// Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
   .cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
-// Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
   .cards {
     grid-template-columns: 1fr 1fr;
   }
 }
-// Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
   .cards {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
-// Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) {
   .cards {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
