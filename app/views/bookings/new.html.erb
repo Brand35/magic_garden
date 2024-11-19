@@ -1,0 +1,14 @@
+<h1>Nouvelle Réservation</h1>
+<%= render 'form', item: @item, booking: @booking %>
+<%= link_to 'Retour', root_path %>
+
+<% if @booking.errors.any? %>
+  <div class="error-messages">
+    <h2><%= pluralize(@booking.errors.count, "erreur") %> empêchent cette réservation :</h2>
+    <ul>
+      <% @booking.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

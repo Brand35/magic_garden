@@ -13,14 +13,28 @@ class BookingsController < ApplicationController
   end
 
   def create
+    @item = Item.find(params[:item_id])
     @booking = @item.bookings.build(booking_params)
-    @booking.user = current_user # Assurez-vous que l'utilisateur est connecté
+    @booking.renter = current_user
 
     if @booking.save
-      redirect_to @booking, notice: 'Réservation créée avec succès.'
+      redirect_to @booking, notice: 'Réservation créée avec succès. En attente de validation par le propriétaire.'
     else
+      logger.debug @booking.errors.full_messages
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def accept
+    @booking = Booking.find(params[:id])
+    @booking.update(status: 'accepted')
+    redirect_to owner_bookings_path, notice: 'Réservation acceptée.'
+  end
+
+  def reject
+    @booking = Booking.find(params[:id])
+    @booking.update(status: 'rejected')
+    redirect_to owner_bookings_path, notice: 'Réservation rejetée.'
   end
 
   def edit; end
@@ -49,6 +63,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:start_date, :end_date, :status)
+    params.require(:booking).permit(:start_date, :end_date)
   end
 end
