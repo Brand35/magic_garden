@@ -1,22 +1,23 @@
-<h1>Pages#home</h1>
-<div class ="container">
+<div class="container">
   <div class="cards">
     <% @items.each do |item| %>
       <div class="card-product">
         <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
-          <div class="card-product-infos">
-            <h2><%= item.name %></h2>
-            <span><%= item.description %></span>
-            <span><%= item.price %></span>
-            <% if item.available == "available" %>
-              <span>available</span>
-            <% elsif item.available == "not available" %>
-              <span>not available</span>
-            <% else %>
-              <span>pending</span>
-            <% end %>
-          </div>
+        <div class="card-product-infos">
+          <h2><%= item.name %></h2>
+          <span><%= item.price %> €</span>
+          <% if item.available == "available" %>
+            <span>available</span>
+            <%= link_to 'Louer cet objet', new_item_booking_path(item), class: 'btn btn-primary' %>
+          <% elsif item.available == "pending" %>
+            <span>pending</span>
+            <div class="btn btn-pending">En attente</div>
+          <% elsif item.available == "not available" %>
+            <span>not available</span>
+            <div class="btn btn-not-available">Indisponible</div>
+          <% end %>
+        </div>
       </div>
-    <% end  %>
+    <% end %>
   </div>
 </div>
