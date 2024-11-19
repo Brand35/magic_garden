@@ -1,6 +1,7 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[show edit update destroy]
   before_action :set_item, only: %i[new create]
+  before_action :authenticate_user!
 
   def index
     @bookings = Booking.all
@@ -9,8 +10,10 @@ class BookingsController < ApplicationController
   def show; end
 
   def new
+    @item = Item.find(params[:item_id])
     @booking = @item.bookings.build
   end
+
 
   def create
     @item = Item.find(params[:item_id])
@@ -37,7 +40,10 @@ class BookingsController < ApplicationController
     redirect_to owner_bookings_path, notice: 'Réservation rejetée.'
   end
 
-  def edit; end
+  def edit
+    @booking = Booking.find(params[:id])
+    @item = @booking.item
+  end
 
   def update
     if @booking.update(booking_params)
