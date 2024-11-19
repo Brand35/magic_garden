@@ -32,6 +32,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_105739) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "owner_id", null: false
+    t.index ["owner_id"], name: "index_items_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,4 +50,5 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_105739) do
 
   add_foreign_key "bookings", "items"
   add_foreign_key "bookings", "users", column: "renter_id"
+  add_foreign_key "items", "users", column: "owner_id"
 end
