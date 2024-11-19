@@ -1,2 +1,22 @@
 <h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class ="container">
+  <div class="cards">
+    <% @items.each do |item| %>
+      <div class="card-product">
+        <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
+          <div class="card-product-infos">
+            <h2><%= item.name %></h2>
+            <span><%= item.description %></span>
+            <span><%= item.price %></span>
+            <% if item.available == "available" %>
+              <span>available</span>
+            <% elsif item.available == "not available" %>
+              <span>not available</span>
+            <% else %>
+              <span>pending</span>
+            <% end %>
+          </div>
+      </div>
+    <% end  %>
+  </div>
+</div>
