@@ -37,4 +37,4 @@ Rails.application.routes.draw do
   # Routes pour les recherches d'items
   get 'items/search', to: 'items#search', as: 'search_items'
 end
-
+end
