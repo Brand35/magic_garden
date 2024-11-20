@@ -38,6 +38,18 @@ class ItemsController < ApplicationController
     redirect_to items_path, notice: 'Item supprimé avec succès.'
   end
 
+  # action owner
+  def owner_items
+    @items = current_user.items
+
+    # @item = current_user.items(item_params)
+    if current_user
+      # redirect_to owner_items_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_item

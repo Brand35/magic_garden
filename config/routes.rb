@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root to: 'items#index'
+  get 'owner-items', to: 'items#owner_items'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -19,9 +20,8 @@ Rails.application.routes.draw do
     resources :bookings, only: %i[new create]
 
     # Route for owner's item list
-    collection do
-      get 'owner', to: 'items#owner_index'
-    end
+    # collection do
+    # end
   end
 
   resources :bookings, only: %i[index show edit update destroy] do
