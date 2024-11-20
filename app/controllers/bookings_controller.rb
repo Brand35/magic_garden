@@ -14,7 +14,6 @@ class BookingsController < ApplicationController
     @booking = @item.bookings.build
   end
 
-
   def create
     @item = Item.find(params[:item_id])
     @booking = @item.bookings.build(booking_params)
