@@ -40,6 +40,4 @@ Rails.application.routes.draw do
   # My bookings
   get 'my_bookings', to: 'bookings#my_bookings', as: :my_bookings
 
-  # My booking requests as an owner
-  # get 'bookings/owner', to: 'bookings#owner_bookings', as: :my_booking_requests
 end
