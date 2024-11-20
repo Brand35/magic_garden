@@ -1,0 +1,13 @@
+<h1>Réservations de <%= @user.first_name %></h1>
+<% if @bookings.any? %>
+  <ul>
+    <% @bookings.each do |booking| %>
+      <li>
+        <strong>Item :</strong> <%= booking.item.name %> <br>
+        <strong>Dates :</strong> <%= booking.start_date %> à <%= booking.end_date %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Aucune réservation trouvée pour cet utilisateur.</p>
+<% end %>
