@@ -39,4 +39,6 @@ Rails.application.routes.draw do
 
   # My bookings
   get 'my_bookings', to: 'bookings#my_bookings', as: :my_bookings
+
+
 end
