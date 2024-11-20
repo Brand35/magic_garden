@@ -4,7 +4,7 @@ class BookingsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @bookings = Booking.all
+    @bookings = current_user.bookings.includes(:item)
   end
 
   def show; end
@@ -21,7 +21,7 @@ class BookingsController < ApplicationController
     @booking.renter = current_user
 
     if @booking.save
-      redirect_to @booking, notice: 'Réservation créée avec succès. En attente de validation par le propriétaire.'
+      redirect_to @booking, notice: 'Réservation créée avec succès ! En attente de validation par le propriétaire.'
     else
       logger.debug @booking.errors.full_messages
       render :new, status: :unprocessable_entity
@@ -56,6 +56,19 @@ class BookingsController < ApplicationController
   def destroy
     @booking.destroy
     redirect_to bookings_path, notice: 'Réservation supprimée avec succès.'
+  end
+
+  def user_bookings
+    @user = User.find_by(id: params[:id]) # Utilisation de find_by pour éviter une erreur fatale
+    if @user.nil?
+      redirect_to root_path, alert: "Utilisateur non trouvé."
+      return
+    end
+    @bookings = Booking.where(renter: @user)
+  end
+
+  def my_bookings
+    @bookings = current_user.bookings.includes(:item)
   end
 
   private
