@@ -71,11 +71,6 @@ class BookingsController < ApplicationController
     @bookings = current_user.bookings.includes(:item)
   end
 
-  def dashboard
-    @items = current_user.items
-    @bookings = Booking.joins(:item).where(items: { owner_id: current_user.id }).includes(:item)
-  end
-
   private
 
   # Définir la réservation en fonction de l'ID

@@ -38,17 +38,26 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    if current_user == @item.owner
-      @item.destroy
-      redirect_to dashboard_path, notice: 'Item supprimé avec succès.'
+    @item = Item.find(params[:id])
+
+    if @item.destroy
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Item supprimé avec succès.' }
+        format.turbo_stream
+      end
     else
-      redirect_to dashboard_path, alert: 'Vous n\'êtes pas autorisé à supprimer cet objet.'
+      flash[:alert] = 'Une erreur est survenue lors de la suppression de l\'item.'
+      redirect_to dashboard_path
     end
   end
 
+
   def dashboard
     @items = current_user.items
-    @bookings = Booking.joins(:item).where(items: { owner_id: current_user.id }).includes(:item)
+    @bookings = Booking.joins(:item)
+                       .where(items: { owner_id: current_user.id })
+                       .where.not(status: 'rejected') # Exclut les refusées
+                       .includes(:item)
   end
 
   private
