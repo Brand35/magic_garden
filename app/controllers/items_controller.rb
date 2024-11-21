@@ -9,10 +9,11 @@ class ItemsController < ApplicationController
         lng: item.longitude,
         marker_html: render_to_string(partial: "marker")
       }
-    if params[:query].present?
-      @items = Item.search_by_name_and_description(params[:query])
-    else
-      @items = Item.all
+      if params[:query].present?
+        @items = Item.search_by_name_and_description(params[:query])
+      else
+        @items = Item.all
+      end
     end
   end
 
@@ -71,4 +72,4 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:name, :description, :price, :photo)
   end
-end 
+end
