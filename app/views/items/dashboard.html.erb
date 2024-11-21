@@ -1,17 +1,62 @@
 <div class="container">
 <h1 class="mt-4 mb-3"> Objets mis en location</h1>
+
+<% if flash.any? %>
+  <% flash.each do |key, message| %>
+    <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show m-1" role="alert">
+      <%= message %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+<% end %>
+
 <div class="cards-dashboard">
   <% @items.each do |item| %>
     <div class="card-product-dashboard">
-        <%= cl_image_tag item.photo.key %>
-        <div class="card-product-infos-dashboard">
+      <%= cl_image_tag item.photo.key if item.photo.present? %>
+      <div class="card-product-infos-dashboard">
         <h2><%= item.name %></h2>
       </div>
     </div>
   <% end %>
 </div>
+
+
 <div class="mt-4 mb-5">
   <%= link_to 'Ajouter un objet', new_item_path, class:'btn btn-primary' %>
 </div>
 <h2> Listes des demandes de réservations</h2>
 </div>
+<% if @bookings.present? && @bookings.any? %>
+  <div class="list-group">
+    <% @bookings.each do |booking| %>
+      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+        <!-- Contenu principal de la réservation -->
+        <div>
+          <h5 class="mb-1">Item : <%= booking.item.name %></h5>
+          <p class="mb-1">
+            Date de début : <%= booking.start_date %> | Date de fin : <%= booking.end_date %>
+          </p>
+          <small>Status : <%= booking.status.capitalize %></small>
+        </div>
+
+        <!-- Boutons à droite -->
+        <% if booking.status == "pending" %>
+          <div class="btn-group ms-auto" style="gap: 10px; margin-right: 10px;">
+            <%= button_to 'Accepter',
+                          update_status_booking_path(booking, status: 'accepted', redirect_to: dashboard_path),
+                          method: :patch,
+                          class: "btn btn-success btn-sm px-4" %>
+            <%= button_to 'Refuser',
+                          update_status_booking_path(booking, status: 'rejected', redirect_to: dashboard_path),
+                          method: :patch,
+                          class: "btn btn-danger btn-sm px-4",
+                          data: { confirm: "Êtes-vous sûr de vouloir rejeter cette réservation ?" } %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>Vous n'avez aucune réservation pour le moment.</p>
+<% end %>
