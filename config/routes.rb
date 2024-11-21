@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   # Items routes
-  resources :items, only: %i[index show new create] do
+  resources :items, only: [:index, :show, :new, :create, :destroy] do
     # Nested bookings routes under items
     resources :bookings, only: %i[new create]
   end
@@ -45,5 +45,5 @@ Rails.application.routes.draw do
 
   # Search for items
   get 'items/search', to: 'items#search', as: :search_items
-  
+
 end

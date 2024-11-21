@@ -12,8 +12,16 @@
 
 <div class="cards-dashboard">
   <% @items.each do |item| %>
-    <div class="card-product-dashboard">
+    <div id="item_<%= item.id %>" class="card-product-dashboard position-relative">
+      <!-- Supprimer cet item -->
+      <%= button_to '×', item_path(item),
+                    method: :delete,
+                    data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cet objet ?" },
+                    class: "delete-item-btn" %>
+
+      <!-- Image de l'item -->
       <%= cl_image_tag item.photo.key if item.photo.present? %>
+
       <div class="card-product-infos-dashboard">
         <h2><%= item.name %></h2>
       </div>
@@ -21,16 +29,22 @@
   <% end %>
 </div>
 
+<script>
+  document.addEventListener("turbo:load", () => {
+    console.log("Turbo chargé !");
+  });
+</script>
+
 
 <div class="mt-4 mb-5">
   <%= link_to 'Ajouter un objet', new_item_path, class:'btn btn-primary' %>
 </div>
-<h2> Listes des demandes de réservations</h2>
+<div class="container">
+<h2>Liste des demandes de réservations</h2>
 <% if @bookings.present? && @bookings.any? %>
   <div class="list-group">
     <% @bookings.each do |booking| %>
       <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-        <!-- Contenu principal de la réservation -->
         <div>
           <h5 class="mb-1">Item : <%= booking.item.name %></h5>
           <p class="mb-1">
@@ -39,7 +53,6 @@
           <small>Status : <%= booking.status.capitalize %></small>
         </div>
 
-        <!-- Boutons à droite -->
         <% if booking.status == "pending" %>
           <div class="btn-group ms-auto" style="gap: 10px; margin-right: 10px;">
             <%= button_to 'Accepter',
@@ -59,4 +72,5 @@
 <% else %>
   <p>Vous n'avez aucune réservation pour le moment.</p>
 <% end %>
+</div>
 </div>
