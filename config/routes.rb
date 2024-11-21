@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   resources :flats
   # Root path
   root to: 'items#index'
-  get 'owner-items', to: 'items#owner_items', as: :owner_items
 
   # Health check route
   get 'up', to: 'rails/health#show', as: :rails_health_check
@@ -14,14 +13,20 @@ Rails.application.routes.draw do
   # User authentication
   devise_for :users
 
+  #test
+  resources :users do
+    resources :items, only: [ :create ]
+  end
+
   # Items routes
-  resources :items, only: %i[new create show] do
+  resources :items, only: %i[index show new create ] do
     # Nested bookings routes under items
     resources :bookings, only: %i[new create]
     # Route for owner's item list
     # collection do
     # end
   end
+  get 'dashboard', to: 'items#dashboard', as: :dashboard
 
   # Bookings routes
   resources :bookings, only: %i[index show edit update destroy] do

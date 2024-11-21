@@ -1,24 +1,14 @@
-<div class="container">
-  <div class="cards">
-    <% @items.each do |item| %>
-      <div class="card-product">
-         <%= cl_image_tag item.photo.key %>
-        <div class="card-product-infos">
-          <h2><%= item.name %></h2>
-          <span><%= item.price %> €</span>
-          <% if item.available == "available" %>
-            <span>available</span>
-            <%= link_to 'Louer cet objet', new_item_booking_path(item), class: 'btn btn-primary' %>
-          <% elsif item.available == "pending" %>
-            <span>pending</span>
-            <div class="btn btn-pending">En attente</div>
-          <% elsif item.available == "not available" %>
-            <span>not available</span>
-            <div class="btn btn-not-available">Indisponible</div>
-          <% end %>
-           <%= link_to 'Voir cet objet', item_path(item), class: 'btn btn-primary mt-3' %>
-        </div>
-      </div>
-    <% end %>
+<div class="card">
+  <div class="card-header">
+    <h1><%= @item.name %></h1>
+  </div>
+  <div class="card-body">
+    <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded m-3"%>
+    <p><strong>Description :</strong> <%= @item.description %></p>
+    <p><strong>Prix :</strong> <%= number_to_currency(@item.price) %></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to "Retour à la liste", root_path, class: "btn btn-secondary" %>
+    <%= link_to 'Louer cet objet', new_item_booking_path(@item), class: 'btn btn-primary' %>
   </div>
 </div>
