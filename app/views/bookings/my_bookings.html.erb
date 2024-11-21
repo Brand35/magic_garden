@@ -1,12 +1,24 @@
 <h1>Mes Réservations</h1>
+
 <% if @bookings.any? %>
   <div class="list-group">
     <% @bookings.each do |booking| %>
-      <a href="<%= booking_path(booking) %>" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Item : <%= booking.item.name %></h5>
-        <p class="mb-1">Date de début : <%= booking.start_date %> | Date de fin : <%= booking.end_date %></p>
-        <small>Status : <%= booking.status.capitalize %></small>
-      </a>
+      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+        <!-- Contenu principal de la réservation -->
+        <div>
+          <h5 class="mb-1">Item : <%= booking.item.name %></h5>
+          <p class="mb-1">Date de début : <%= booking.start_date %> | Date de fin : <%= booking.end_date %></p>
+          <small>Status : <%= booking.status.capitalize %></small>
+        </div>
+
+        <!-- Boutons à droite -->
+        <% if booking.status == "pending" %>
+          <div class="btn-group ms-auto" style="gap: 10px; margin-right: 10px;">
+            <%= button_to 'Accepter', update_status_booking_path(booking, status: 'accepted'), method: :patch, class: "btn btn-success btn-sm px-4" %>
+            <%= button_to 'Refuser', update_status_booking_path(booking, status: 'rejected'), method: :patch, class: "btn btn-danger btn-sm px-4", data: { confirm: "Êtes-vous sûr de vouloir rejeter cette réservation ?" } %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% else %>

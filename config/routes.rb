@@ -17,18 +17,25 @@ Rails.application.routes.draw do
   resources :items, only: %i[new create show] do
     # Nested bookings routes under items
     resources :bookings, only: %i[new create]
-    # Route for owner's item list
-    # collection do
-    # end
-  end
-
-  # Bookings routes
-  resources :bookings, only: %i[index show edit update destroy] do
-    # Route for owner's bookings
-    collection do
-      get 'owner', to: 'bookings#owner_index'
+    member do
+      patch :update_status # Route pour mettre à jour le statut d'une réservation
     end
   end
+
+ # bookings routes
+resources :bookings, only: %i[index show edit update destroy] do
+  # Route pour les réservations du propriétaire
+  collection do
+    get :owner, to: 'bookings#owner_index' # Ex: /bookings/owner
+  end
+
+  # booking status update route
+  member do
+    patch :update_status # Ex: /bookings/:id/update_status
+  end
+end
+
+
 
   # Search for items
   get 'items/search', to: 'items#search', as: :search_items

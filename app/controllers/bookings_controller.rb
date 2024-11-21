@@ -66,6 +66,20 @@ class BookingsController < ApplicationController
     @bookings = Booking.where(renter: @user)
   end
 
+  def update_status
+    @booking = Booking.find(params[:id])
+    status = params[:status]
+
+    if %w[accepted rejected].include?(status)
+      @booking.update(status: status)
+      flash[:notice] = "La réservation a été #{status == 'accepted' ? 'acceptée' : 'refusée'}."
+    else
+      flash[:alert] = "Statut invalide."
+    end
+
+    redirect_to bookings_path
+  end
+
   def my_bookings
     @bookings = current_user.bookings.includes(:item)
   end
@@ -83,4 +97,5 @@ class BookingsController < ApplicationController
   def booking_params
     params.require(:booking).permit(:start_date, :end_date)
   end
+
 end
