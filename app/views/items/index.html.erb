@@ -1,11 +1,21 @@
+ <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);">
+      <div class="d-flex justify-content-center align-self-end">
+        <h4>Magic Garden</h4>
+      </div>
+      <div class="d-flex justify-content-center align-self-end">
+        <p>Cultivez votre vie, comme vous cultivez votre jardin</p>
+        </div>
+</div>
+
+
 <div class="container">
-  <div class="row justify-content-center">
+  <div class="row justify-content-center mt-4 mb-3">
   <div class="col-sm-8 my-3">
     <%= form_tag items_path, method: :get, class: "d-flex" do %>
       <%= text_field_tag :query,
             params[:query],
             class: "form-control",
-            placeholder: "Type a keyword"
+            placeholder: "Rechercher"
         %>
       <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
     <% end %>
