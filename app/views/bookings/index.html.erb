@@ -1,7 +1,7 @@
-<h1>Liste des Réservations</h1>
+<h1>Liste des réservations</h1>
 <% @bookings.each do |booking| %>
   <div>
-    <p>Réservation pour l'item : <%= booking.item.name %></p>
+    <p>Réservation du : <%= booking.item.name %></p>
     <p>Date de début : <%= booking.start_date %></p>
     <p>Date de fin : <%= booking.end_date %></p>
     <%= link_to 'Voir', booking_path(booking) %>
@@ -9,4 +9,4 @@
     <%= link_to 'Supprimer', booking_path(booking), method: :delete, data: { confirm: 'Êtes-vous sûr ?' } %>
   </div>
 <% end %>
-
+<%= link_to 'Nouvelle réservation', new_item_booking_path %>

@@ -1,7 +1,7 @@
-<h1>Mes Réservations en Attente</h1>
 
+<div class="container mt-5">
+<h1>Mes réservations</h1>
 <% pending_bookings = @bookings.select { |booking| booking.status == 'pending' } %>
-
 <% if pending_bookings.any? %>
   <div class="list-group">
     <% pending_bookings.each do |booking| %>
@@ -23,3 +23,4 @@
 <% else %>
   <p>Vous n'avez aucune réservation en attente.</p>
 <% end %>
+</div>
