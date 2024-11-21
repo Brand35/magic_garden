@@ -26,7 +26,6 @@
   <%= link_to 'Ajouter un objet', new_item_path, class:'btn btn-primary' %>
 </div>
 <h2> Listes des demandes de réservations</h2>
-</div>
 <% if @bookings.present? && @bookings.any? %>
   <div class="list-group">
     <% @bookings.each do |booking| %>
@@ -60,3 +59,4 @@
 <% else %>
   <p>Vous n'avez aucune réservation pour le moment.</p>
 <% end %>
+</div>
