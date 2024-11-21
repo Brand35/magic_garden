@@ -1,0 +1,11 @@
+<div class="container">
+  <h1 class="mt-5 mb-5">Nouvel objet à mettre en location</h1>
+
+<%= simple_form_for(@item) do |f| %>
+  <%= f.input :name, label: "Nom de l'objet" %>
+  <%= f.input :description, label: "Description" %>
+  <%= f.input :price, label: "Prix" %>
+  <%= f.input :photo, label: "Photo", as: :file %>
+
+  <%= f.button :submit, "Ajouter" %>
+<% end %>
