@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # Root path
   root to: 'items#index'
-  get 'owner-items', to: 'items#owner_items'
+  get 'owner-items', to: 'items#owner_items', as: :owner_items
 
   # Health check route
   get 'up', to: 'rails/health#show', as: :rails_health_check
@@ -17,11 +17,9 @@ Rails.application.routes.draw do
   resources :items, only: %i[new create show] do
     # Nested bookings routes under items
     resources :bookings, only: %i[new create]
-
     # Route for owner's item list
     # collection do
     # end
-
   end
 
   # Bookings routes
