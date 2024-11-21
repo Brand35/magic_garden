@@ -21,7 +21,9 @@
             <%= image_tag "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Mes réservations", my_bookings_path, class: "dropdown-item" %>
-              <%= link_to "Mon tableau de bord", dashboard_path, class: "dropdown-item" %>
+
+              <%= link_to "Mon tableau de bord", owner_items_path, class: "dropdown-item" %>
+
               <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
             </div>
           </li>
