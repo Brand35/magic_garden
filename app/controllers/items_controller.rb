@@ -17,11 +17,12 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = current_user.items.build(item_params)
+    @item = Item.new(item_params)
+    @item.owner = current_user
     if @item.save
-      redirect_to @item, notice: 'Item créé avec succès.'
+      redirect_to dashboard_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -43,7 +44,7 @@ class ItemsController < ApplicationController
   end
 
   # action owner
-  def owner_items
+  def dashboard
     @items = current_user.items
 
     # @item = current_user.items(item_params)
