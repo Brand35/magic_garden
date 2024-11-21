@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :flats
   # Root path
   root to: 'items#index'
   get 'owner-items', to: 'items#owner_items', as: :owner_items

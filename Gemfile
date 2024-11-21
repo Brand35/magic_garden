@@ -42,6 +42,8 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "rspec"
 gem "cloudinary"
+gem "geocoder"
+gem "importmap-rails"
 
 group :development, :test do
   gem "dotenv-rails"
