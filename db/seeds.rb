@@ -30,7 +30,7 @@ file = URI.parse("https://static8.depositphotos.com/1337050/865/i/450/depositpho
 item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
 item.save!
 
-item = Item.new(name: "Hair-rosoir", description: "arrosoir qui fait pousser les cheveux lorsque tu arrose ta tête.", available: "pending", price: 300, owner: User.find_by(email:"ophelie@magicgarden.com") )
+item = Item.new(name: "Hair-rosoir", description: "arrosoir qui fait pousser les cheveux lorsque tu arrose ta tête.", available: "available", price: 300, owner: User.find_by(email:"ophelie@magicgarden.com") )
 file = URI.parse("https://img.freepik.com/photos-gratuite/homme-chauve-triste-detresse-tenant-mains-visage-detourner-regard_176420-18519.jpg?t=st=1732100783~exp=1732104383~hmac=89ba9b2dcf70724f969ed745088226dcd3d37411464dce87ad69a78b12c64d39&w=2000").open
 item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
 item.save!
