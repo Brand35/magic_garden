@@ -1,14 +1,25 @@
-<h1>Mes Réservations</h1>
-<% if @bookings.any? %>
+<h1>Mes Réservations en Attente</h1>
+
+<% pending_bookings = @bookings.select { |booking| booking.status == 'pending' } %>
+
+<% if pending_bookings.any? %>
   <div class="list-group">
-    <% @bookings.each do |booking| %>
-      <a href="<%= booking_path(booking) %>" class="list-group-item list-group-item-action">
-        <h5 class="mb-1">Item : <%= booking.item.name %></h5>
-        <p class="mb-1">Date de début : <%= booking.start_date %> | Date de fin : <%= booking.end_date %></p>
-        <small>Status : <%= booking.status.capitalize %></small>
-      </a>
+    <% pending_bookings.each do |booking| %>
+      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+        <!-- Contenu principal de la réservation -->
+        <div>
+          <h5 class="mb-1">Item : <%= booking.item.name %></h5>
+          <p class="mb-1">Date de début : <%= booking.start_date %> | Date de fin : <%= booking.end_date %></p>
+          <small>Status : <%= booking.status.capitalize %></small>
+        </div>
+
+        <!-- Boutons d'action (facultatifs) -->
+        <div class="btn-group ms-auto" style="gap: 10px;">
+          <%= link_to 'Voir', booking_path(booking), class: 'btn btn-info btn-sm' %>
+        </div>
+      </div>
     <% end %>
   </div>
 <% else %>
-  <p>Vous n'avez aucune réservation pour le moment.</p>
+  <p>Vous n'avez aucune réservation en attente.</p>
 <% end %>

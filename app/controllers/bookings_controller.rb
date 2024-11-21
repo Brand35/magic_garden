@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: %i[show edit update destroy]
+  before_action :set_booking, only: %i[show edit update destroy update_status]
   before_action :set_item, only: %i[new create]
   before_action :authenticate_user!
 
@@ -10,40 +10,24 @@ class BookingsController < ApplicationController
   def show; end
 
   def new
-    @item = Item.find(params[:item_id])
     @booking = @item.bookings.build
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @booking = @item.bookings.build(booking_params)
     @booking.renter = current_user
 
     if @booking.save
-      redirect_to @booking, notice: 'Réservation créée avec succès ! En attente de validation par le propriétaire.'
+      redirect_to @booking, notice: 'Réservation créée avec succès ! En attente de validation par le propriétaire.'
     else
-      logger.debug @booking.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
 
-  def accept
-    @booking = Booking.find(params[:id])
-    @booking.update(status: 'accepted')
-    redirect_to owner_bookings_path, notice: 'Réservation acceptée.'
-  end
+  # Modification d'une réservation
+  def edit; end
 
-  def reject
-    @booking = Booking.find(params[:id])
-    @booking.update(status: 'rejected')
-    redirect_to owner_bookings_path, notice: 'Réservation rejetée.'
-  end
-
-  def edit
-    @booking = Booking.find(params[:id])
-    @item = @booking.item
-  end
-
+  # Mise à jour d'une réservation
   def update
     if @booking.update(booking_params)
       redirect_to @booking, notice: 'Réservation mise à jour avec succès.'
@@ -53,34 +37,64 @@ class BookingsController < ApplicationController
   end
 
   def destroy
-    @booking.destroy
-    redirect_to bookings_path, notice: 'Réservation supprimée avec succès.'
+    if authorized_user?(@booking)
+      @booking.destroy
+      redirect_to bookings_path, notice: 'Réservation supprimée avec succès.'
+    else
+      redirect_to bookings_path, alert: 'Vous n\'êtes pas autorisé à supprimer cette réservation.'
+    end
   end
 
   def user_bookings
-    @user = User.find_by(id: params[:id]) # Utilisation de find_by pour éviter une erreur fatale
-    if @user.nil?
-      redirect_to root_path, alert: "Utilisateur non trouvé."
-      return
+    @user = User.find_by(id: params[:id])
+    if @user
+      @bookings = Booking.where(renter: @user)
+    else
+      redirect_to root_path, alert: 'Utilisateur non trouvé.'
     end
-    @bookings = Booking.where(renter: @user)
+  end
+
+  def update_status
+    if authorized_user?(@booking)
+      if @booking.update(status: params[:status])
+        flash[:notice] = "Réservation mise à jour avec succès."
+      else
+        flash[:alert] = "Erreur lors de la mise à jour de la réservation."
+      end
+      redirect_back(fallback_location: dashboard_path)
+    else
+      redirect_to dashboard_path, alert: "Vous n'êtes pas autorisé à mettre à jour cette réservation."
+    end
   end
 
   def my_bookings
     @bookings = current_user.bookings.includes(:item)
   end
 
+  def dashboard
+    @items = current_user.items
+    @bookings = Booking.joins(:item).where(items: { owner_id: current_user.id }).includes(:item)
+  end
+
   private
 
+  # Définir la réservation en fonction de l'ID
   def set_booking
     @booking = Booking.find(params[:id])
   end
 
+  # Définir l'item en fonction de l'ID
   def set_item
     @item = Item.find(params[:item_id])
   end
 
+  # Autoriser uniquement les paramètres nécessaires
   def booking_params
     params.require(:booking).permit(:start_date, :end_date)
+  end
+
+  # Vérifier si l'utilisateur actuel est autorisé à accéder à la réservation
+  def authorized_user?(booking)
+    current_user == booking.renter || current_user == booking.item.owner
   end
 end
