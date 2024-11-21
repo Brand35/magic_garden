@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   # Items routes
-  resources :items, only: %i[new create show] do
+  resources :items, only: %i[index show new create ] do
     # Nested bookings routes under items
     resources :bookings, only: %i[new create]
     # Route for owner's item list
