@@ -3,11 +3,19 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
   def index
-    @items = if params[:query].present?
-               Item.search_by_name_and_description(params[:query])
-             else
-               Item.all
-             end
+    if params[:query].present?
+      @items = Item.search_by_name_and_description(params[:query])
+    else
+      @items = Item.all
+    end
+    @markers = @items.geocoded.map do |item|
+      {
+        lat: item.latitude,
+        lng: item.longitude,
+        marker_html: render_to_string(partial: "marker"),
+        info_window_html: render_to_string(partial: "info_window", locals: { item: item })
+      }
+    end
   end
 
   # Affiche un item spécifique

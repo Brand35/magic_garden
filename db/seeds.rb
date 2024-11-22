@@ -52,6 +52,7 @@ item.save!
 
 item = Item.new(name: "Mignarrosoir", description: "arrosoir trop mignon à arc-en-ciel.", available: "available", price: 299, owner: User.find_by(email:"omar@magicgarden.com") )
 file = URI.parse("https://i.ibb.co/StL5gdy/45976d07-67ee-4d81-80b5-9ec296e74c1f.webp").open
+
 item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
 item.save!
 
