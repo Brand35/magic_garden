@@ -42,6 +42,7 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "rspec"
 gem "cloudinary"
+gem "geocoder"
 
 # Search Gem
 gem 'pg_search'
