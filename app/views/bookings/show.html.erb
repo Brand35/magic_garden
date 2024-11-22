@@ -4,6 +4,6 @@
 <p>Date de fin : <%= @booking.end_date %></p>
 <p>Status : <%= @booking.status == 'pending' ? 'En attente de validation' : @booking.status.capitalize %></p>
 
-<%= link_to 'Modifier', edit_booking_path(@booking) %>
+<%= link_to 'mes reservations', my_bookings_path(@booking) %>
 <%= link_to 'Retour à la liste', root_path %>
 </div>
