@@ -1,15 +1,13 @@
 <%= form_with(model: [item, booking], local: true) do |form| %>
-  <div>
-    <%= form.label :start_date, 'Date de début' %>
-    <%= form.date_field :start_date, required: true %>
+  <div class="form-group">
+    <%= form.label :start_date, "Date de début" %>
+    <%= form.date_field :start_date, class: 'form-control' %>
   </div>
-
-  <div>
-    <%= form.label :end_date, 'Date de fin' %>
-    <%= form.date_field :end_date, required: true %>
+  <div class="form-group">
+    <%= form.label :end_date, "Date de fin" %>
+    <%= form.date_field :end_date, class: 'form-control' %>
   </div>
-
-  <div>
-    <%= form.submit 'Enregistrer' %>
+  <div class="form-group">
+    <%= form.submit "Réserver", class: "btn btn-primary mt-3" %>
   </div>
 <% end %>

@@ -1,8 +1,13 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
 
   def index
-    @items = Item.all
+    if params[:query].present?
+      @items = Item.search_by_name_and_description(params[:query])
+    else
+      @items = Item.all
+    end
     @markers = @items.geocoded.map do |item|
       {
         lat: item.latitude,
@@ -11,14 +16,12 @@ class ItemsController < ApplicationController
         info_window_html: render_to_string(partial: "info_window", locals: { item: item })
       }
     end
-    if params[:query].present?
-      @items = Item.search_by_name_and_description(params[:query])
-    else
-      @items = Item.all
-    end
   end
 
+  # Affiche un item spécifique
   def show
+    @item = Item.find(params[:id])
+    @booking = Booking.new
   end
 
   def new
@@ -29,45 +32,50 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
     @item.owner = current_user
     if @item.save
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: 'Objet ajouté avec succès !'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-    # L'action `edit` affiche simplement la page d'édition.
-  end
+  def edit; end
 
   def update
     if @item.update(item_params)
       redirect_to @item, notice: 'Item mis à jour avec succès.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @item.destroy
-    redirect_to items_path, notice: 'Item supprimé avec succès.'
+    @item = Item.find(params[:id])
+
+    if @item.destroy
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Item supprimé avec succès.' }
+        format.turbo_stream
+      end
+    else
+      flash[:alert] = 'Une erreur est survenue lors de la suppression de l\'item.'
+      redirect_to dashboard_path
+    end
   end
 
-  # action owner
   def dashboard
     @items = current_user.items
-
-    # @item = current_user.items(item_params)
-    if current_user
-      # redirect_to owner_items_path
-    else
-      render :edit, status: :unprocessable_entity
-    end
+    @bookings = Booking.joins(:item)
+                       .where(items: { owner_id: current_user.id })
+                       .where.not(status: 'rejected') # Exclut les refusées
+                       .includes(:item)
   end
 
   private
 
   def set_item
     @item = Item.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to items_path, alert: "Item introuvable."
   end
 
   def item_params

@@ -13,19 +13,19 @@ Rails.application.routes.draw do
   # User authentication
   devise_for :users
 
-  #test
-  resources :users do
-    resources :items, only: [ :create ]
+  # User routes
+  resources :users, only: [] do
+    resources :items, only: [:create]
+    get :bookings, to: 'bookings#user_bookings', as: :bookings
   end
 
   # Items routes
-  resources :items, only: %i[index show new create ] do
+  resources :items, only: [:index, :show, :new, :create, :destroy] do
     # Nested bookings routes under items
     resources :bookings, only: %i[new create]
-    # Route for owner's item list
-    # collection do
-    # end
   end
+
+  # Dashboard route
   get 'dashboard', to: 'items#dashboard', as: :dashboard
 
   # Bookings routes
@@ -34,15 +34,17 @@ Rails.application.routes.draw do
     collection do
       get 'owner', to: 'bookings#owner_index'
     end
+
+    # Route to update booking status
+    member do
+      patch :update_status
+    end
   end
-
-  # Search for items
-  get 'items/search', to: 'items#search', as: :search_items
-
-  # User-specific bookings
-  get 'users/:id/bookings', to: 'bookings#user_bookings', as: :user_bookings
 
   # My bookings
   get 'my_bookings', to: 'bookings#my_bookings', as: :my_bookings
+
+  # Search for items
+  get 'items/search', to: 'items#search', as: :search_items
 
 end

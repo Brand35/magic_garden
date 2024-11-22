@@ -1,39 +1,53 @@
-<div class="container">
-  <div style="width: 100%; height: 600px;"
-  data-controller="map"
-  data-map-markers-value="<%= @markers.to_json %>"
-  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
-  <div class="row justify-content-center">
-  <div class="col-sm-8 my-3">
-    <%= form_tag items_path, method: :get, class: "d-flex" do %>
-      <%= text_field_tag :query,
-            params[:query],
-            class: "form-control",
-            placeholder: "Type a keyword"
-        %>
-      <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
-    <% end %>
-  </div>
+ <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);">
+      <div class="d-flex justify-content-center align-self-end">
+        <h4>Magic Garden</h4>
+      </div>
+      <div class="d-flex justify-content-center align-self-end">
+        <p>Cultivez votre vie, comme vous cultivez votre jardin</p>
+        </div>
 </div>
 
+
 <div class="container">
-  <div class="cards">
+<%# BARRE DE RECHERCHE  %>
+  <div class="row justify-content-center mt-4 mb-3">
+    <div class="col-sm-8 my-3">
+      <%= form_tag items_path, method: :get, class: "d-flex" do %>
+        <%= text_field_tag :query,
+            params[:query],
+            class: "form-control",
+            placeholder: "Rechercher"
+          %>
+        <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+<%# MAP %>
+  <div style="width: 100%; height: 600px;"
+    data-controller="map"
+    data-map-markers-value="<%= @markers.to_json %>"
+    data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+  </div>
+
+<%# grid avec les items %>
+<div class="container">
+  <div class="cards m-4">
     <% @items.each do |item| %>
       <div class="card-product">
          <%= cl_image_tag item.photo.key %>
         <div class="card-product-infos">
           <h2><%= item.name %></h2>
           <span><%= item.price %> €</span>
-          <% if item.available == "available" %>
-            <span>available</span>
-            <%= link_to 'Louer cet objet', new_item_booking_path(item), class: 'btn btn-primary' %>
-          <% elsif item.available == "pending" %>
-            <span>pending</span>
-            <div class="btn btn-pending">En attente</div>
-          <% elsif item.available == "not available" %>
-            <span>not available</span>
-            <div class="btn btn-not-available">Indisponible</div>
-          <% end %>
+          <%# if item.available == "available" %>
+          <%#   <span>available</span> %>
+          <%#   <%= link_to 'Louer cet objet', new_item_booking_path(item), class: 'btn btn-primary' %>
+          <%# elsif item.available == "pending" %>
+          <%#   <span>pending</span> %>
+          <%#   <div class="btn btn-pending">En attente</div> %>
+          <%# elsif item.available == "not available" %>
+          <%#   <span>not available</span> %>
+          <%#   <div class="btn btn-not-available">Indisponible</div> %>
+          <%# end %>
            <%= link_to 'Voir cet objet', item_path(item), class: 'btn btn-primary mt-3' %>
         </div>
       </div>
