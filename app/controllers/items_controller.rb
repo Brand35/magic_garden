@@ -7,13 +7,14 @@ class ItemsController < ApplicationController
       {
         lat: item.latitude,
         lng: item.longitude,
-        marker_html: render_to_string(partial: "marker")
+        marker_html: render_to_string(partial: "marker"),
+        info_window_html: render_to_string(partial: "info_window", locals: { item: item })
       }
-      if params[:query].present?
-        @items = Item.search_by_name_and_description(params[:query])
-      else
-        @items = Item.all
-      end
+    end
+    if params[:query].present?
+      @items = Item.search_by_name_and_description(params[:query])
+    else
+      @items = Item.all
     end
   end
 
