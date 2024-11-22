@@ -1,26 +1,40 @@
 <div class="container mt-4">
-  <div class="container card">
-  <div class="card-header">
-    <h1><%= @item.name %></h1>
-  </div>
-  <div class="card-body">
-    <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded m-3" %>
-    <p><strong>Description :</strong> <%= @item.description %></p>
-    <p><strong>Prix :</strong> <%= number_to_currency(@item.price) %></p>
-  </div>
-  <!-- Formulaire de réservation -->
-  <h2>Nouvelle réservation</h2>
-  <%= render 'bookings/form', item: @item, booking: @booking %>
-  <!-- Affichage des erreurs éventuelles -->
-  <% if @booking.errors.any? %>
-    <div class="error-messages">
-      <h3><%= pluralize(@booking.errors.count, "erreur") %> empêchent cette réservation :</h3>
-      <ul>
-        <% @booking.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <div class="card shadow">
+    <div class="card-header text-center">
+      <h1 class="fw-bold"><%= @item.name %></h1>
     </div>
-  <% end %>
-  <%= link_to 'Retour à la liste', items_path, class: 'btn btn-secondary mt-3' %>
+    <div class="card-body">
+      <div class="row align-items-center">
+        <!-- Colonne gauche : Image et informations de l'objet -->
+        <div class="col-md-6 text-center p-4">
+          <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded" %>
+          <div class="mt-4">
+            <p class="mb-2"><strong>Description :</strong> <%= @item.description %></p>
+            <p><strong>Prix :</strong> <%= number_to_currency(@item.price) %></p>
+          </div>
+        </div>
+
+        <!-- Colonne droite : Formulaire de réservation -->
+        <div class="col-md-6 p-4">
+          <h2 class="mb-4 text-center">Nouvelle réservation</h2>
+          <%= render 'bookings/form', item: @item, booking: @booking %>
+
+          <!-- Affichage des erreurs éventuelles -->
+          <% if @booking.errors.any? %>
+            <div class="alert alert-danger mt-4">
+              <h4><%= pluralize(@booking.errors.count, "erreur") %> empêchent cette réservation :</h4>
+              <ul>
+                <% @booking.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-center">
+      <%= link_to 'Retour à la liste', items_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
 </div>
