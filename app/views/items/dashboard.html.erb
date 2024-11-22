@@ -1,6 +1,5 @@
 <div class="container">
 <h1 class="mt-4 mb-3"> Objets mis en location</h1>
-
 <% if flash.any? %>
   <% flash.each do |key, message| %>
     <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show m-1" role="alert">
@@ -9,7 +8,6 @@
     </div>
   <% end %>
 <% end %>
-
 <div class="cards-dashboard">
   <% @items.each do |item| %>
     <div id="item_<%= item.id %>" class="card-product-dashboard position-relative">
@@ -18,24 +16,19 @@
                     method: :delete,
                     data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cet objet ?" },
                     class: "delete-item-btn" %>
-
       <!-- Image de l'item -->
       <%= cl_image_tag item.photo.key if item.photo.present? %>
-
       <div class="card-product-infos-dashboard">
         <h2><%= item.name %></h2>
       </div>
     </div>
   <% end %>
 </div>
-
 <script>
   document.addEventListener("turbo:load", () => {
     console.log("Turbo chargé !");
   });
 </script>
-
-
 <div class="mt-4 mb-5">
   <%= link_to 'Ajouter un objet', new_item_path, class:'btn btn-primary' %>
 </div>
@@ -52,7 +45,6 @@
           </p>
           <small>Status : <%= booking.status.capitalize %></small>
         </div>
-
         <% if booking.status == "pending" %>
           <div class="btn-group ms-auto" style="gap: 10px; margin-right: 10px;">
             <%= button_to 'Accepter',

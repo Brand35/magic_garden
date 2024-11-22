@@ -11,7 +11,10 @@ class ItemsController < ApplicationController
   end
 
   # Affiche un item spécifique
-  def show; end
+  def show
+    @item = Item.find(params[:id])
+    @booking = Booking.new
+  end
 
   def new
     @item = Item.new
@@ -50,7 +53,6 @@ class ItemsController < ApplicationController
       redirect_to dashboard_path
     end
   end
-
 
   def dashboard
     @items = current_user.items

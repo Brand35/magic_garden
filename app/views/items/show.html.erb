@@ -1,15 +1,26 @@
-
-<div class="container card">
+<div class="container mt-4">
+  <div class="container card">
   <div class="card-header">
     <h1><%= @item.name %></h1>
   </div>
   <div class="card-body">
-    <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded m-3"%>
+    <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded m-3" %>
     <p><strong>Description :</strong> <%= @item.description %></p>
     <p><strong>Prix :</strong> <%= number_to_currency(@item.price) %></p>
   </div>
-  <div class="card-footer">
-    <%= link_to "Retour à la liste", root_path, class: "btn btn-secondary" %>
-    <%= link_to 'Louer cet objet', new_item_booking_path(@item), class: 'btn btn-primary' %>
-  </div>
+  <!-- Formulaire de réservation -->
+  <h2>Nouvelle réservation</h2>
+  <%= render 'bookings/form', item: @item, booking: @booking %>
+  <!-- Affichage des erreurs éventuelles -->
+  <% if @booking.errors.any? %>
+    <div class="error-messages">
+      <h3><%= pluralize(@booking.errors.count, "erreur") %> empêchent cette réservation :</h3>
+      <ul>
+        <% @booking.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= link_to 'Retour à la liste', items_path, class: 'btn btn-secondary mt-3' %>
 </div>
