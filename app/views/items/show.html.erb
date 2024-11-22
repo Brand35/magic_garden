@@ -1,15 +1,27 @@
-
 <div class="container card">
   <div class="card-header">
     <h1><%= @item.name %></h1>
   </div>
+
   <div class="card-body">
-    <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded m-3"%>
+    <%= cl_image_tag @item.photo.key, height: 400, width: 400, crop: :fill, class: "rounded m-3" %>
     <p><strong>Description :</strong> <%= @item.description %></p>
     <p><strong>Prix :</strong> <%= number_to_currency(@item.price) %></p>
   </div>
+
   <div class="card-footer">
-    <%= link_to "Retour à la liste", root_path, class: "btn btn-secondary" %>
-    <%= link_to 'Louer cet objet', new_item_booking_path(@item), class: 'btn btn-primary' %>
+    <h2>Réserver cet objet</h2>
+    <%= form_with url: item_bookings_path(@item), method: :post, local: true do |f| %>
+      <div class="mb-3">
+        <%= f.label :start_date, "Date de début", class: "form-label" %>
+        <%= f.text_field :start_date, class: "form-control datepicker", placeholder: "Sélectionnez une date" %>
+      </div>
+      <div class="mb-3">
+        <%= f.label :end_date, "Date de fin", class: "form-label" %>
+        <%= f.text_field :end_date, class: "form-control datepicker", placeholder: "Sélectionnez une date" %>
+      </div>
+      <%= f.submit "Réserver", class: "btn btn-primary" %>
+    <% end %>
+    <%= link_to "Retour à la liste", root_path, class: "btn btn-secondary mt-3" %>
   </div>
 </div>

@@ -55,6 +55,62 @@ file = URI.parse("https://www.mister-arrosage.com/wp-content/uploads/2024/02/min
 item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
 item.save!
 
+item = Item.new(
+  name: "Arc-en-Clé",
+  description: "Une clé magique qui ouvre toutes les portes cachées du royaume des Minimoys.",
+  available: "available",
+  price: 400,
+  owner: User.find_by(email: "ophelie@magicgarden.com")
+)
+file = URI.open("https://cdn.pixabay.com/photo/2017/01/10/19/05/key-1975858_960_720.jpg")
+item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
+item.save!
+
+item = Item.new(
+  name: "Fleur-Doudou",
+  description: "Une fleur lumineuse qui apaise et protège des cauchemars dans les jardins nocturnes.",
+  available: "available",
+  price: 350,
+  owner: User.find_by(email: "ophelie@magicgarden.com")
+)
+file = URI.open("https://cdn.pixabay.com/photo/2013/07/18/15/01/sunflower-165115_960_720.jpg")
+item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
+item.save!
+
+item = Item.new(
+  name: "Marteau-Tonerre",
+  description: "Un marteau qui fait trembler la terre lorsqu'il frappe le sol. Utilisé pour chasser les envahisseurs des jardins.",
+  available: "available",
+  price: 500,
+  owner: User.find_by(email: "ophelie@magicgarden.com")
+)
+file = URI.open("https://cdn.pixabay.com/photo/2016/02/19/11/19/hammer-1209225_960_720.jpg")
+item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
+item.save!
+
+item = Item.new(
+  name: "Harpe-Chantante",
+  description: "Une harpe qui attire les oiseaux pour enchanter les jardins de mélodies douces.",
+  available: "not available",
+  price: 450,
+  owner: User.find_by(email: "ophelie@magicgarden.com")
+)
+file = URI.open("https://cdn.pixabay.com/photo/2015/12/14/22/40/harp-1097862_960_720.jpg")
+item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
+item.save!
+
+item = Item.new(
+  name: "Sable-Enchanteur",
+  description: "Une poignée de sable magique qui rend fertile même les terres les plus arides.",
+  available: "available",
+  price: 250,
+  owner: User.find_by(email: "ophelie@magicgarden.com")
+)
+file = URI.open("https://cdn.pixabay.com/photo/2016/11/18/17/21/sand-1836354_960_720.jpg")
+item.photo.attach(io: file, filename: "#{item.name}.png", content_type: "image/png")
+item.save!
+
+
 
 # 4. Create the instances of bookings
 puts "Creating bookings..."
